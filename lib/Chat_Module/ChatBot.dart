@@ -1,0 +1,97 @@
+// import 'package:dialog_flowtter_plus/dialog_flowtter_plus.dart';
+import 'package:flutter/material.dart';
+import '../utils/constants/colors.dart';
+import '../utils/halpers/helper_function.dart';
+import 'MyMessages.dart';
+
+class ChatBotScreen extends StatefulWidget {
+  const ChatBotScreen({Key? key}) : super(key: key);
+
+  @override
+  _ChatBotScreenState createState() => _ChatBotScreenState();
+}
+
+class _ChatBotScreenState extends State<ChatBotScreen> {
+  // late DialogFlowtter dialogFlowtter;  // Temporarily disabled
+  final TextEditingController _controller = TextEditingController();
+
+  List<Map<String, dynamic>> messages = [];
+
+  @override
+  void initState() {
+    // DialogFlowtter.fromFile().then((instance) => dialogFlowtter = instance);  // Temporarily disabled
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+
+      appBar:AppBar(elevation:3,shadowColor:Colors.blue,
+          leading:Padding(
+            padding: const EdgeInsets.only(left:10),
+            child: CircleAvatar(backgroundImage:AssetImage("assets/images/images/img_4.png")),
+          ),
+        title:Column(
+          children: [
+            Text("SafetyBOT",style:Theme.of(context).textTheme.headlineSmall),
+            Text("What can I Help You..",style:Theme.of(context).textTheme.bodySmall),
+          ],
+        )
+      ),
+      body: Container(
+        child: Column(
+          children: [
+            Expanded(child: MessagesScreen(messages: messages)),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal:10, vertical:5),
+              color: Colors.white24,
+              child: Row(
+                children: [
+                  Expanded(
+                      child:TextFormField(
+                        controller: _controller,
+                        style: TextStyle(color:THelperFunction.isDarkMode(context)?Colors.white:Colors.black),
+                      )),
+                  IconButton(
+                    iconSize:30,
+                      onPressed: () {
+                        sendMessage(_controller.text);
+                        _controller.clear();
+                      },
+                      icon: Icon(Icons.send,color:TColors.primaryColor))
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  sendMessage(String text) async {
+    if (text.isEmpty) {
+      print('Message is empty',);
+    } else {
+      // Temporarily disabled DialogFlow functionality
+      setState(() {
+        addMessage({
+          'message': {'text': {'text': [text]}},
+          'isUserMessage': true
+        });
+      });
+      
+      // Simulate bot response
+      setState(() {
+        addMessage({
+          'message': {'text': {'text': ['Sorry, chatbot functionality is temporarily disabled. Please contact support for assistance.']}},
+          'isUserMessage': false
+        });
+      });
+    }
+  }
+
+  addMessage(Map<String, dynamic> message, [bool isUserMessage = false]) {
+    messages.add({'message': message, 'isUserMessage': isUserMessage});
+  }
+}

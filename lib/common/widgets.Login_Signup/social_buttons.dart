@@ -1,0 +1,33 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../features/authentication/screens/Login/login_controller.dart';
+import '../../utils/constants/colors.dart';
+
+class TSocialButtons extends StatelessWidget {
+  const TSocialButtons({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final controller = Get.put(LoginController());
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: TColors.grey),
+            borderRadius: BorderRadius.circular(50),
+          ),
+          child: IconButton(
+            onPressed: () {},
+            icon: const Image(
+              width: 30,
+              height: 30,
+              image: AssetImage("assets/logos/googleLogo.png"),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
